@@ -1,12 +1,9 @@
----
-
-```markdown
 # 📚 DevOps Notes & Documentation
 
 Welcome to the **DevOps Notes** repository!  
-This is a well-structured collection of curated notes, designed to provide clarity and practical understanding of DevOps, Cloud (AWS), and SQL fundamentals.
+This is a curated collection of notes on DevOps, Cloud (AWS), and SQL fundamentals, designed for clarity and practical understanding.
 
-Whether you're preparing for interviews, brushing up your knowledge, or looking for a personal knowledge base — this repo is for you.
+Whether you're preparing for interviews, brushing up your knowledge, or building a personal knowledge base — this repo is for you.
 
 ---
 
