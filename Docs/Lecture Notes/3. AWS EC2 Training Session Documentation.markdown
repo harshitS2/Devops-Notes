@@ -1,0 +1,428 @@
+# AWS EC2 Training Session Documentation
+
+This document provides a comprehensive overview of the AWS Elastic Compute Cloud (EC2) training session conducted on May 11, 2025. It covers theoretical concepts, practical demonstrations, participant questions and answers, interview questions, and a quiz, ensuring all context from the session is captured.
+
+---
+
+## Session Overview
+The session focused on AWS EC2, a core AWS service for creating and managing virtual servers. The instructor introduced EC2, explained its purpose, and demonstrated how to launch, connect, and troubleshoot EC2 instances. The session included practical examples, real-world analogies (e.g., PUBG, stadium gates), and a quiz to reinforce learning. Participants were encouraged to practice hands-on tasks to solidify their understanding.
+
+### Key Objectives
+- Understand the concept of EC2 and virtual servers.
+- Learn how to launch, configure, and connect to EC2 instances.
+- Explore security groups, key pairs, and AMIs (Amazon Machine Images).
+- Address common troubleshooting scenarios and interview questions.
+- Emphasize practical skills for industry roles.
+
+---
+
+## Key Concepts Covered
+
+1. **What is EC2?**
+   - **Definition**: EC2 stands for **Elastic Compute Cloud**, a web service providing resizable compute capacity in the cloud.
+   - **Purpose**: Enables users to create virtual servers for hosting applications, websites, batch jobs, and more.
+   - **Analogy**: Similar to PUBG roles (fighter, looter, backup), EC2 servers have distinct roles (production, testing, development).
+   - **Characteristics**:
+     - **Regional Service**: EC2 instances are tied to specific AWS regions (e.g., North Virginia, Mumbai).
+     - **Pay-as-You-Go**: Charged hourly based on usage.
+     - **Service Level Agreement (SLA)**: 99.99% uptime.
+   - **Virtual Servers**:
+     - Run on AWS data centers, not physical machines managed by users.
+     - Example: Movies depict data centers with servers (e.g., stealing hard disks), which AWS manages.
+
+2. **Virtual Servers**
+   - **Definition**: Servers hosted on AWS infrastructure, managed by AWS, not users.
+   - **Analogy**: Like accessing someone else’s computer via RDP (Remote Desktop Protocol), the server exists elsewhere.
+   - **Data Centers**: AWS operates data centers with servers (CPUs without screens, like Mac Mini), managed by AWS.
+
+3. **Amazon Machine Image (AMI)**
+   - **Definition**: Preconfigured templates containing operating systems (OS) and software configurations.
+   - **Types**:
+     - **Quick Start**: Default, widely used AMIs.
+     - **Marketplace**: Third-party AMIs with pre-installed software (e.g., OpenVPN, Palo Alto, Splunk).
+     - **Community AMIs**: Custom AMIs created by users.
+     - **Custom AMIs**: Organization-specific AMIs with pre-installed software.
+   - **Example**: In companies like TCS or Infosys, IT teams don’t install software on each computer; they use preconfigured AMIs.
+   - **Marketplace**: Offers over 7,000 AMIs with various OS and software combinations.
+   - **Free Tier**: Amazon Linux AMI is recommended for free tier usage.
+
+4. **Instance Types**
+   - **Definition**: Different server configurations based on CPU, RAM, storage, and network capacity.
+   - **Free Tier**: Only **t2.micro** is available for free.
+   - **Industry Usage**: Companies use larger instances (e.g., t2.medium, t2.large) based on budget and application needs.
+   - **EC2 Families**:
+     - **General Purpose**: M-series, T-series (e.g., t2.micro for balanced workloads).
+     - **Compute Optimized**: C-series for high computational tasks (e.g., Graviton processors).
+     - **Memory Optimized**: R-series for high RAM needs.
+     - **Accelerated**: For GPU-intensive tasks (e.g., graphic designing).
+     - **Storage Optimized**: For large storage needs (e.g., databases).
+     - **HPC**: High-performance computing for supercomputers (e.g., deep learning).
+   - **Analogy**: Like choosing gaming laptops (Alienware, ROG) vs. notebooks for specific tasks.
+
+5. **Tags**
+   - **Definition**: Key-value pairs to identify and group EC2 instances.
+   - **Purpose**: Differentiate servers (e.g., production, testing, development) and organize resources.
+   - **Example**:
+     - Key: `Environment`, Value: `Production`.
+     - Key: `Team`, Value: `DevOps`.
+     - Key: `Priority`, Value: `Critical`.
+   - **Use Case**: Filter servers by tags (e.g., show all DevOps team servers or testing servers).
+   - **Analogy**: Grouping students into teams (Alpha, Beta, Gamma) or tagging people by city (Delhi, Bangalore).
+   - **Interview Note**: Tags help identify servers but don’t group resources automatically; they aid in filtering via APIs.
+
+6. **Security Groups**
+   - **Definition**: Virtual firewalls controlling inbound and outbound traffic to EC2 instances.
+   - **Analogy**: Watchmen at stadium gates (e.g., Gate 1 for business class, Gate 2 for normal seats).
+   - **Key Features**:
+     - **Stateful**: Outbound traffic is allowed by default; inbound rules are user-defined.
+     - **No Deny Option**: Only allows specific traffic (e.g., SSH, HTTPS).
+     - **Ports and Protocols**:
+       - **SSH**: Port 22 (Secure Shell for Linux servers).
+       - **HTTPS**: Port 443 (web traffic).
+       - **RDP**: For Windows servers.
+       - Total ports: ~65,536.
+     - **Default Security Group**: Allows all outbound traffic; inbound rules must be configured.
+     - **Custom Security Group**: Users can create specific groups (e.g., `MySecurityGroup`) for reusable rules.
+   - **Best Practice**: Use existing security groups for multiple instances to avoid creating new ones each time.
+
+7. **Key Pairs**
+   - **Definition**: Cryptographic files (public and private keys) for secure server access.
+   - **Components**:
+     - **Public Key**: Stored by AWS in the EC2 instance.
+     - **Private Key**: Downloaded by the user (e.g., `.pem` or `.ppk` file).
+   - **Purpose**: Replaces traditional username/password for remote access (e.g., via SSH).
+   - **Algorithms**:
+     - **RSA**: Universal, supported by Windows, Linux, and Mac.
+     - **ED25519**: Supported only by Linux and Mac.
+   - **File Formats**:
+     - **.pem**: Universal, used by Git Bash, MobaXterm, etc.
+     - **.ppk**: Used by PuTTY.
+   - **Analogy**: Like a bank locker key (private key) and lock (public key stored by AWS).
+   - **Security Notes**:
+     - Key pairs cannot be regenerated.
+     - Key pairs cannot be changed for an existing instance.
+     - Multiple servers can use the same key pair, but losing it affects all associated servers.
+     - Private key files (~1 KB) can become corrupted but are unlikely to crash.
+   - **Interview Questions**:
+     1. **Can you regenerate a key pair?** No, key pairs are security-specific and cannot be regenerated.
+     2. **If I lose my key pair, can I change it?** No, the key pair for an instance is fixed at launch.
+     3. **If I lose my key pair, how do I recover data?** Covered in the next session (EBS snapshots).
+
+8. **Instance States**
+   - **Running**: Instance is active and billable.
+   - **Stopped**: Instance is inactive but incurs storage costs.
+   - **Reboot**: Restarts the instance.
+   - **Hibernate**: Saves state for long-term inactivity (not available for all instances).
+   - **Terminated**: Deletes the instance; terminated instances are removed from the console after 15–30 minutes.
+   - **Best Practice**: Terminate unused instances to avoid indirect storage costs.
+
+9. **EC2 Purchasing Options**
+   - **On-Demand**:
+     - Pay-as-you-go, charged hourly.
+     - Example: Daily mobile recharge (e.g., ₹19 for 1 GB).
+     - Second most expensive option.
+   - **Reserved**:
+     - Commit to 1–3 years for up to 72% cost savings.
+     - Example: Yearly mobile recharge plan.
+     - Third most expensive option.
+   - **Spot Instances**:
+     - Discounted prices (70–80% off) for unused AWS resources.
+     - Example: Sale season discounts.
+     - Non-critical workloads only; AWS can terminate with 3–5 minutes’ notice.
+     - Cheapest option.
+   - **Dedicated**:
+     - Fully dedicated servers with premium features (e.g., auto-recovery).
+     - Example: Postpaid or custom mobile plans.
+     - Most expensive option.
+   - **Analogy**: Geo mobile plan (daily recharge = on-demand, yearly = reserved, sale = spot, premium = dedicated).
+
+10. **Benefits of EC2**
+    - **Scalability**: Add or remove servers as needed.
+    - **Flexibility**: Choose instance types (CPU, RAM, GPU) based on requirements.
+    - **Cost-Effectiveness**: Pay-as-you-go model.
+    - **Global Availability**: Deploy in any AWS region to minimize latency.
+    - **Reliability**: 99.99% SLA.
+
+11. **Use Cases**
+    - Host websites and applications (e.g., Netflix, Zomato).
+    - Run batch jobs (e.g., billing systems for gas, water).
+    - Set up development, testing, staging, and production environments.
+    - Run any compute-intensive task (e.g., playing GTA V).
+
+12. **Free Tier**
+    - Provides 750 hours/month for t2.micro instances across the AWS account.
+    - Storage costs apply even for stopped instances.
+    - Terminate unused instances to avoid charges.
+
+13. **Regional Service**
+    - EC2 instances and key pairs are region-specific.
+    - Example: A key pair created in North Virginia cannot be used in Mumbai.
+
+---
+
+## Practical Demonstrations
+
+1. **Launching an EC2 Instance**
+   - **Steps**:
+     1. Go to **EC2 Console** > **Instances** > **Launch Instance**.
+     2. Name the instance (e.g., `Server1`).
+     3. Select an AMI (e.g., **Amazon Linux** for free tier).
+     4. Choose instance type (e.g., **t2.micro** for free tier).
+     5. Skip key pair for browser-based access or create one for remote access.
+     6. Select security group:
+        - Use **Default Security Group** (modified to allow all traffic) or create a custom group.
+        - Ensure **SSH (port 22)** is allowed for remote access.
+     7. Set storage (e.g., 8 GB).
+     8. Add tags (e.g., Key: `Environment`, Value: `Production`).
+     9. Launch the instance.
+   - **Outcome**: Instance enters **Running** state, visible in the EC2 console with public/private IPs and AMI details.
+
+2. **Connecting to an EC2 Instance (Browser-Based)**
+   - **Steps**:
+     1. Select the instance in the EC2 console.
+     2. Click **Connect** > **EC2 Instance Connect**.
+     3. Click **Connect** to open a terminal in a new browser tab.
+   - **Outcome**: Access the Linux terminal (black screen) for command execution.
+   - **Note**: Username is `ec2-user`.
+
+3. **Creating a Key Pair**
+   - **Steps**:
+     1. Go to **EC2 Console** > **Key Pairs** > **Create Key Pair**.
+     2. Name the key pair (e.g., `New` or `KG`).
+     3. Select **RSA** algorithm and **.pem** format for universal compatibility.
+     4. Click **Create Key Pair**; the private key (e.g., `New.pem`) downloads automatically.
+   - **Outcome**: Key pair is created; public key is stored by AWS, and private key is saved locally.
+
+4. **Connecting to an EC2 Instance (Remote via SSH)**
+   - **Mac/Linux**:
+     1. Open terminal and navigate to the folder with the private key (e.g., `cd ~/Downloads`).
+     2. Change key permissions: `chmod 400 New.pem`.
+     3. Copy the SSH command from **EC2 Console** > **Connect** > **SSH Client** (e.g., `ssh -i "New.pem" ec2-user@<public-ip>`).
+     4. Paste the command and accept the connection (`yes`).
+   - **Windows (Git Bash)**:
+     1. Open Git Bash and navigate to the folder (e.g., `cd Downloads`).
+     2. Change key permissions: `chmod 400 New.pem`.
+     3. Copy and paste the SSH command.
+     4. Accept the connection (`yes`).
+   - **Windows (MobaXterm)**:
+     1. Open MobaXterm and create a new session.
+     2. Select **SSH** and enter the public IP.
+     3. Specify username (`ec2-user`).
+     4. Select the private key (`.pem` file).
+     5. Connect to the session.
+   - **Outcome**: Access the Linux terminal remotely.
+   - **Note**: MobaXterm may crash 50% of the time; Git Bash is more reliable.
+
+5. **Troubleshooting Connection Issues**
+   - **Scenario**: Unable to connect to the instance (timeout error).
+   - **Steps**:
+     1. Go to **EC2 Console** > **Security Groups**.
+     2. Select the instance’s security group (e.g., `Default`).
+     3. Check **Inbound Rules**; ensure **SSH (port 22)** or **All Traffic** is allowed from anywhere (`0.0.0.0/0`).
+     4. If no rules exist, add a rule:
+        - Type: `SSH`, Protocol: `TCP`, Port: `22`, Source: `Anywhere`.
+     5. Save and retry connecting.
+   - **Outcome**: Connection succeeds if the correct port is open.
+   - **Demonstration**:
+     - Removed all inbound rules → Connection failed (`Error establishing instance connection`).
+     - Added `All Traffic` rule → Connection succeeded after refreshing.
+
+6. **Using the Wrong Key Pair**
+   - **Steps**:
+     1. Attempt to connect using a different key pair (e.g., `Test123.pem` instead of `New.pem`).
+     2. Run the SSH command.
+   - **Outcome**: Connection fails (`Permission denied (publickey)`), demonstrating that only the correct private key works.
+
+7. **Managing Security Groups**
+   - **Steps**:
+     1. Go to **EC2 Console** > **Security Groups**.
+     2. Create a new security group (e.g., `MySecurityGroup`).
+     3. Add inbound rule: Type: `All Traffic`, Source: `Anywhere`.
+     4. Use the new security group for future instances or select an existing one during launch.
+   - **Outcome**: Reusable security group simplifies instance configuration.
+
+---
+
+## Participant Questions and Answers
+
+1. **What is EC2 used for?**
+   - **Answer**: EC2 creates virtual servers for hosting applications, websites, batch jobs, and various environments (production, testing, development).
+
+2. **Are virtual machines running on physical computers?**
+   - **Answer**: Yes, virtual servers run on AWS data centers with physical servers (CPUs without screens, like Mac Mini), managed by AWS.
+
+3. **How to differentiate between servers (e.g., production vs. testing)?**
+   - **Answer**: Use **tags** (key-value pairs) to identify servers (e.g., `Environment: Production`, `Team: DevOps`).
+
+4. **Do tags group resources?**
+   - **Answer**: No, tags identify and filter resources (e.g., via APIs) but don’t group them automatically.
+
+5. **How many types of operating systems are available?**
+   - **Answer**: Numerous OS types exist (e.g., Amazon Linux, Ubuntu, Kali Linux, Windows 7/10/11, CentOS, Debian, Fedora). AWS offers over 7,000 AMIs with various configurations.
+
+6. **Do IT teams install software on each computer in companies?**
+   - **Answer**: No, they use preconfigured AMIs with software (e.g., Sentinel, Cisco VPN) to streamline deployment.
+
+7. **Why use Amazon Linux in the free tier?**
+   - **Answer**: It’s free and widely used in industry. Ubuntu is also acceptable if users know basic Linux commands.
+
+8. **How to select an operating system?**
+   - **Answer**: Developers choose the OS based on application needs (e.g., iOS, Linux). DevOps engineers provide the infrastructure as per their requirements.
+
+9. **What are the gates in a computer?**
+   - **Answer**: Gates are **ports** (e.g., SSH: 22, HTTPS: 443, RDP) associated with protocols for connecting to servers.
+
+10. **Do I need to create a new security group for each instance?**
+    - **Answer**: No, use an existing security group (e.g., `Default` or a custom group) for multiple instances.
+
+11. **Can multiple users connect to the same server with the same key pair?**
+    - **Answer**: Yes, multiple users can connect simultaneously using the same private key.
+
+12. **What happens if the key pair file is corrupted?**
+    - **Answer**: A corrupted key (~1 KB) prevents server access. Redownloading is not possible, as key pairs cannot be regenerated.
+
+13. **How does a server choose the correct key pair if multiple keys exist?**
+    - **Answer**: The SSH command specifies the key file (e.g., `New.pem`), ensuring the correct key is used.
+
+14. **When is the private key used vs. the public key?**
+    - **Answer**: The private key is used by the user for authentication (e.g., in SSH commands). The public key, stored by AWS, verifies the private key during connection.
+
+15. **Can the same key pair be used for multiple servers?**
+    - **Answer**: Yes, but losing the key affects all associated servers. Use multiple key pairs (e.g., 5–10) to mitigate risks.
+
+16. **Can a server have multiple key pairs?**
+    - **Answer**: No, each server is associated with one key pair at launch.
+
+17. **Why not use Windows servers?**
+    - **Answer**: Linux (e.g., Amazon Linux) is preferred for cost, stability, and industry standards. Windows uses RDP instead of SSH, which is less common in DevOps.
+
+18. **Can I create global servers?**
+    - **Answer**: No, EC2 is a regional service; instances and key pairs are region-specific.
+
+19. **Does a stopped instance incur charges?**
+    - **Answer**: Yes, indirectly for storage (e.g., EBS volumes). Terminate instances to avoid costs.
+
+20. **Can I create my own .pem key?**
+    - **Answer**: Yes, using third-party cryptographic tools, then import the key into AWS.
+
+21. **What is a batch job?**
+    - **Answer**: Independent tasks running in the background (e.g., daily billing for gas, water in commercial areas).
+
+22. **Why migrate from on-premises to EC2?**
+    - **Answer**: Covered in the first session; benefits include scalability, cost-effectiveness, and global availability.
+
+23. **Why choose a specific region?**
+    - **Answer**: To minimize latency (e.g., Mumbai is faster for India-based users than North Virginia). AWS provides a latency test tool.
+
+24. **What is scripting?**
+    - **Answer**: Combining multiple Linux commands into a single file for automation.
+
+---
+
+## Interview Questions
+
+1. **What is an EC2 instance, server, resource, or machine?**
+   - **Answer**: They all refer to virtual servers in AWS EC2 for compute tasks.
+
+2. **What are tags used for?**
+   - **Answer**: To identify and filter servers (e.g., by environment or team) using key-value pairs.
+
+3. **If unable to connect to a server (timeout issue), how do you troubleshoot?**
+   - **Answer**: Check the security group to ensure the correct port (e.g., SSH: 22) is open. Verify the error type if the issue persists.
+
+4. **Can you regenerate a key pair?**
+   - **Answer**: No, key pairs are security-specific and cannot be regenerated.
+
+5. **If I lose my key pair, can I change it?**
+   - **Answer**: No, the key pair for an instance is fixed at launch.
+
+6. **If I lose my key pair, how do I recover data?**
+   - **Answer**: Use EBS snapshots (covered in the next session).
+
+7. **What is the port number for SSH?**
+   - **Answer**: 22.
+
+8. **What is the port number for HTTPS?**
+   - **Answer**: 443.
+
+9. **What are the three IAM entities?**
+   - **Answer**: Users, groups, and roles.
+
+10. **What is used for multiple authentication steps in IAM?**
+    - **Answer**: Multi-Factor Authentication (MFA).
+
+11. **How to group different servers?**
+    - **Answer**: Use tags.
+
+12. **How to give temporary access to a user?**
+    - **Answer**: Use IAM roles.
+
+13. **How to provide generic permissions to multiple users?**
+    - **Answer**: Use IAM groups.
+
+14. **Can a user be part of multiple groups?**
+    - **Answer**: Yes.
+
+15. **If a server is stopped, will it incur charges?**
+    - **Answer**: Yes, indirectly for storage (e.g., EBS volumes).
+
+16. **How to handle company-specific roles and regulations for permissions?**
+    - **Answer**: Create custom or inline policies.
+
+17. **What is the combination of key pair algorithm and format?**
+    - **Answer**: RSA + .pem for universal compatibility.
+
+---
+
+## Quiz Questions and Answers
+
+1. **What are the three types of IAM entities?**
+   - **Answer**: Users, groups, and roles.
+
+2. **What is used for multiple authentication steps in IAM?**
+   - **Answer**: MFA (Multi-Factor Authentication).
+
+3. **How to group different servers?**
+   - **Answer**: Use tags.
+
+4. **How to give temporary access to a user?**
+   - **Answer**: Use roles.
+
+5. **How to provide generic permissions to multiple users?**
+   - **Answer**: Use groups.
+
+6. **Can a user be part of multiple groups?**
+   - **Answer**: Yes.
+
+7. **If a server is stopped, will it incur charges?**
+   - **Answer**: Yes, indirectly for storage (e.g., EBS volumes).
+
+8. **What is the port number for SSH?**
+   - **Answer**: 22.
+
+9. **What is the port number for HTTPS?**
+   - **Answer**: 443.
+
+10. **How to handle company-specific roles and regulations?**
+    - **Answer**: Create custom or inline policies.
+
+11. **If unable to connect to a server, how do you troubleshoot?**
+    - **Answer**: Check the security group to ensure the correct port is open; verify the error type.
+
+---
+
+## Additional Notes
+
+- **Next Topic**: Elastic Block Storage (EBS) on May 12, 2025, covering storage and snapshots for data recovery.
+- **Practical Emphasis**: Hands-on practice is critical for industry roles; participants must launch and connect to servers.
+- **Free Tier Usage**: Use **t2.micro** and **Amazon Linux** to avoid charges; terminate instances after use.
+- **Windows Users**: Install **Git Bash** or **MobaXterm** for SSH access; Git Bash is more reliable.
+- **Regional Service**: Ensure key pairs and instances are in the same region.
+- **Snapshots**: Data recovery for lost key pairs will be covered in the EBS session.
+- **Recordings**: Available 3–4 hours post-session for review.
+- **Support**: Instructor provided contact details for practical assistance.
+
+---
+
+## Summary
+The AWS EC2 training session provided a thorough understanding of EC2, covering virtual servers, AMIs, instance types, tags, security groups, key pairs, and purchasing options. Practical demonstrations included launching instances, connecting via browser and SSH, and troubleshooting connection issues. Real-world analogies (e.g., stadium gates, bank lockers) and a quiz reinforced key concepts. Participants were encouraged to practice hands-on tasks and prepare for the next session on EBS, ensuring readiness for industry roles.

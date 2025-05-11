@@ -1,0 +1,386 @@
+# AWS EBS Training Session Documentation
+
+This document provides a comprehensive overview of the AWS Elastic Block Store (EBS) training session conducted on May 11, 2025. It covers theoretical concepts, practical demonstrations, participant questions and answers, interview questions, and a quiz, ensuring all context from the session is captured.
+
+---
+
+## Session Overview
+The session focused on AWS Elastic Block Store (EBS), a block storage service for EC2 instances. The instructor introduced EBS, explained its purpose, and demonstrated how to create, attach, detach, and manage EBS volumes. The session included practical examples, real-world analogies (e.g., external hard drives, pen drives), and a quiz to reinforce learning. Participants were encouraged to practice hands-on tasks to solidify their understanding.
+
+### Key Objectives
+- Understand the concept of EBS and its role in EC2.
+- Learn how to create, attach, detach, and manage EBS volumes.
+- Explore volume types, scalability, snapshots, and AMIs.
+- Address common troubleshooting scenarios and interview questions.
+- Emphasize practical skills for industry roles.
+
+---
+
+## Key Concepts Covered
+
+1. **What is EBS?**
+   - **Definition**: Elastic Block Store (EBS) is a block storage service that provides persistent storage for EC2 instances.
+   - **Purpose**: Stores the operating system, applications, and data for EC2 instances.
+   - **Analogy**: Like an external hard drive or SSD attached to a computer.
+   - **Key Characteristics**:
+     - **Regional Service**: EBS volumes are tied to specific AWS regions and availability zones (AZs).
+     - **Persistent Storage**: Root volumes are deleted when an instance is terminated, but additional volumes persist.
+     - **Minimum Size**: 8 GB for Linux servers, 30 GB for Windows servers (due to UI requirements).
+     - **Scalability**: Volume size can be increased but not decreased.
+   - **Use Case**: Hosts the operating system and critical data, ensuring data persistence.
+
+2. **EBS Volumes**
+   - **Definition**: Virtual hard drives attached to EC2 instances.
+   - **Types**:
+     - **SSD (Solid State Drive)**: High-performance storage for general-purpose and provisioned IOPS (high throughput).
+     - **HDD (Hard Disk Drive)**: Cost-effective for large data streaming (e.g., cold HDD, throughput-optimized).
+     - **Magnetic**: Legacy storage for infrequent access.
+   - **Analogy**: Similar to SSDs, HDDs, and floppy disks in traditional computing.
+   - **Key Features**:
+     - **Single Instance Attachment**: One EBS volume can be attached to only one EC2 instance at a time.
+     - **Multiple Volumes per Instance**: An EC2 instance can have multiple EBS volumes attached.
+     - **Minimum Size for Additional Volumes**: 1 GB (up to 16 TB).
+     - **IOPS (Input/Output Operations Per Second)**: Measures the speed of read/write operations.
+     - **Throughput**: Measures data transfer speed for high-performance tasks (e.g., gaming, large file transfers).
+   - **Availability Zone Restriction**: EBS volumes and EC2 instances must be in the same AZ for attachment.
+
+3. **Root vs. Additional Volumes**
+   - **Root Volume**:
+     - Contains the operating system.
+     - Automatically created when launching an EC2 instance.
+     - Deleted when the instance is terminated.
+   - **Additional Volumes**:
+     - Extra storage for data, applications, or databases.
+     - Persist after instance termination.
+     - Can be detached and reattached to other instances.
+   - **Analogy**: Root volume is like the primary hard drive with the OS; additional volumes are like external hard drives or pen drives.
+
+4. **Scalability**
+   - **Increasing Size**: EBS volume size can be increased (e.g., from 8 GB to 20 GB) via the **Modify Volume** option.
+   - **Decreasing Size**: Not allowed due to security concerns (data footprints remain in storage).
+   - **Analogy**: Like upgrading a hard drive to a larger capacity but not downgrading due to residual data risks.
+   - **Interview Note**: AWS restricts decreasing volume size to prevent data leakage.
+
+5. **Attaching and Detaching Volumes**
+   - **Attaching**:
+     - Select an available EBS volume, go to **Actions** > **Attach Volume**, and choose an EC2 instance in the same AZ.
+     - Assign a device name (e.g., `/dev/sdf`, `/dev/sdg`).
+   - **Detaching**:
+     - Select an attached volume, go to **Actions** > **Detach Volume**.
+     - **Force Detach**: Used for root volumes when an instance crashes (last resort to recover data).
+   - **Analogy**: Like plugging/unplugging an external hard drive or pen drive.
+   - **Best Practice**: Stop the instance before detaching to avoid data loss.
+
+6. **Snapshots**
+   - **Definition**: Point-in-time backups of EBS volumes.
+   - **Purpose**: Backup, disaster recovery, data archiving, and moving data across AZs or regions.
+   - **Key Features**:
+     - **Immutable**: Snapshots capture data at a specific moment (e.g., 09:37) and do not update automatically.
+     - **Incremental**: Only changes since the last snapshot are stored, reducing costs.
+     - **Lifecycle Policy**: Automates snapshot creation (e.g., daily, weekly) with a retention count (e.g., keep the latest 5 snapshots).
+     - **Cross-AZ/Region Sharing**: Create volumes from snapshots in different AZs or copy snapshots to other regions.
+   - **Analogy**: Like taking a photo at a specific time; the image doesn’t change unless a new photo is taken.
+   - **Cost**: Snapshots incur storage costs; transferring across AZs or regions also incurs charges.
+   - **Use Case**: Recover data if a key pair is lost or an instance crashes by creating a new volume from a snapshot.
+
+7. **Amazon Machine Image (AMI)**
+   - **Definition**: A template containing an operating system, applications, and configurations for launching EC2 instances.
+   - **Types**:
+     - **AWS-Managed**: Official images (e.g., Amazon Linux).
+     - **Private/Custom**: User-created AMIs with specific software (e.g., Git installed).
+     - **Community**: Third-party AMIs (e.g., Cisco, OpenVPN).
+   - **Purpose**:
+     - **Faster Deployment**: Launch multiple instances with identical configurations.
+     - **Consistency**: Ensure all instances have the same software and settings.
+     - **Manageability**: Simplify server management in large-scale environments.
+   - **Analogy**: Like a preconfigured laptop image used to set up multiple identical laptops.
+   - **Creation Process**:
+     - Select an EC2 instance, go to **Actions** > **Images and Templates** > **Create Image**.
+     - Name the AMI (e.g., `Git-Image`) and create it.
+     - Launch new instances from **My AMIs** in the EC2 console.
+   - **Use Case**: Deploy thousands of servers with the same configuration (e.g., Google’s backend servers).
+
+8. **Instance Type Modification**
+   - **Definition**: Changing the EC2 instance type (e.g., from t2.micro to t2.large or t2.nano).
+   - **Process**:
+     - Stop the instance.
+     - Go to **Actions** > **Instance Settings** > **Change Instance Type**.
+     - Select the desired type and apply.
+   - **Key Points**:
+     - Both upgrading (e.g., to t2.large) and downgrading (e.g., to t2.nano) are allowed.
+     - Non-free tier instance types (e.g., t2.nano) incur charges.
+   - **Analogy**: Like upgrading or downgrading a mobile phone’s hardware.
+   - **Use Case**: Adjust instance type for overutilized or underutilized workloads.
+
+9. **Free Tier**
+   - **EBS Allowance**: 30 GB of EBS storage (SSD) for free per month.
+   - **Usage Note**: Monitor usage to avoid charges (e.g., terminate unused volumes).
+   - **Dashboard**: Displays remaining free tier storage (e.g., 27.2 GB remaining after 9% usage).
+
+10. **Benefits of EBS**
+    - **Data Persistence**: Additional volumes persist after instance termination.
+    - **Scalability**: Increase volume size as needed.
+    - **High Availability**: 99.99% SLA.
+    - **Performance**: SSDs offer high IOPS and throughput for demanding workloads.
+    - **Backup and Recovery**: Snapshots enable data recovery and disaster recovery.
+   - **Analogy**: EBS is like a Ferrari—fast but expensive compared to other storage types (e.g., EFS, S3).
+
+11. **Comparison with Other Storage Types**
+    - **EBS**: Fastest, costliest, directly attached to EC2 instances for high performance.
+    - **EFS (Elastic File System)**: Shared storage for multiple instances, slower, network-based.
+    - **S3 (Simple Storage Service)**: Object storage, slowest, internet-based, cost-effective for archival.
+   - **Analogy**: EBS is a local SSD, EFS is a shared network drive, S3 is cloud storage like Google Drive.
+
+12. **Cost Considerations**
+    - **Storage Costs**: Charged for allocated EBS volume size (e.g., 50 GB, even if only 5 GB is used).
+    - **Snapshot Costs**: Charged for snapshot storage and cross-AZ/region transfers.
+    - **Stopped Instances**: Incur storage costs for attached EBS volumes.
+    - **Industry Perspective**: Terabyte-scale storage and snapshots are costly; budgets typically limit snapshots to 3–5 recent backups.
+
+---
+
+## Practical Demonstrations
+
+1. **Launching an EC2 Instance with EBS Volume**
+   - **Steps**:
+     1. Go to **EC2 Console** > **Instances** > **Launch Instance**.
+     2. Name the instance (e.g., `ABC`).
+     3. Select **Amazon Linux** AMI and **t2.micro** instance type.
+     4. Specify storage (e.g., 8 GB default, or increase to 20 GB).
+     5. Launch without a key pair for browser-based access.
+     6. Check **Volumes** in the EC2 console to verify the EBS volume creation.
+   - **Outcome**: An 8 GB root volume is automatically created in the same AZ as the instance.
+
+2. **Increasing EBS Volume Size**
+   - **Steps**:
+     1. Go to **EC2 Console** > **Volumes**.
+     2. Select the volume (e.g., 8 GB).
+     3. Go to **Actions** > **Modify Volume**.
+     4. Increase size (e.g., to 20 GB) and save.
+     5. Refresh to verify the new size.
+   - **Outcome**: Volume size is increased; decreasing size is not allowed.
+
+3. **Creating and Attaching Additional EBS Volumes**
+   - **Steps**:
+     1. Go to **EC2 Console** > **Volumes** > **Create Volume**.
+     2. Specify size (e.g., 1 GB, 2 GB, 3 GB) and AZ (e.g., us-east-1c).
+     3. Create multiple volumes.
+     4. Select a volume, go to **Actions** > **Attach Volume**.
+     5. Choose an EC2 instance in the same AZ (e.g., `Server1`) and assign a device name (e.g., `/dev/sdf`).
+   - **Outcome**: Multiple volumes are attached to the instance, visible under **Storage**.
+
+4. **Detaching EBS Volumes**
+   - **Steps**:
+     1. Select an attached volume.
+     2. Go to **Actions** > **Detach Volume**.
+     3. Refresh to verify the volume is now **Available**.
+   - **Outcome**: Volume is detached and can be reattached to another instance.
+
+5. **Force Detaching a Root Volume**
+   - **Steps**:
+     1. Stop the EC2 instance.
+     2. Select the root volume.
+     3. Go to **Actions** > **Detach Volume** > **Force Detach**.
+   - **Outcome**: Root volume is detached, allowing data recovery from a crashed instance.
+
+6. **Terminating an Instance**
+   - **Steps**:
+     1. Terminate the instance (e.g., `Server1`).
+     2. Check **Volumes** to verify the root volume is deleted and additional volumes persist.
+   - **Outcome**: Root volume is deleted; additional volumes remain **Available**.
+
+7. **Creating a Snapshot**
+   - **Steps**:
+     1. Select a volume (e.g., 5 GB in us-east-1c).
+     2. Go to **Actions** > **Create Snapshot**.
+     3. Name the snapshot (e.g., `1C-Snap`) and create it.
+   - **Outcome**: Snapshot is created, capturing data at the current moment (e.g., 09:37).
+
+8. **Automating Snapshots with Lifecycle Policy**
+   - **Steps**:
+     1. Select a volume.
+     2. Go to **Actions** > **Create Snapshot Lifecycle Policy**.
+     3. Name the policy (e.g., `ABC`) and add a description (e.g., `Increment`).
+     4. Choose frequency (e.g., weekly) and retention count (e.g., 5 snapshots).
+     5. Create the policy.
+   - **Outcome**: Snapshots are taken automatically, with the oldest snapshot deleted when the count exceeds 5.
+
+9. **Moving Data Across AZs Using Snapshots**
+   - **Steps**:
+     1. Create a snapshot of a volume in one AZ (e.g., 7 GB in us-east-1c).
+     2. Go to **Snapshots**, select the snapshot, and choose **Actions** > **Create Volume from Snapshot**.
+     3. Select a different AZ (e.g., us-east-1d) and create the volume.
+     4. Attach the new volume to an instance in us-east-1d.
+   - **Outcome**: Data is moved to a different AZ via a snapshot.
+
+10. **Copying Snapshots Across Regions**
+    - **Steps**:
+      1. Select a snapshot.
+      2. Go to **Actions** > **Copy Snapshot**.
+      3. Choose the destination region (e.g., Mumbai) and copy.
+    - **Outcome**: Snapshot is copied to another region, enabling data sharing.
+
+11. **Creating a Custom AMI**
+    - **Steps**:
+      1. Launch an EC2 instance and install software (e.g., Git using `sudo yum install git`).
+      2. Select the instance, go to **Actions** > **Images and Templates** > **Create Image**.
+      3. Name the AMI (e.g., `Git-Image`) and create it.
+      4. Launch a new instance from **My AMIs**, selecting `Git-Image`.
+      5. Connect to the new instance and verify Git is installed (`git --version`).
+    - **Outcome**: New instance has Git pre-installed, demonstrating consistent configurations.
+
+12. **Changing Instance Type**
+    - **Steps**:
+      1. Stop the instance (e.g., t2.micro).
+      2. Go to **Actions** > **Instance Settings** > **Change Instance Type**.
+      3. Select a new type (e.g., t2.large or t2.nano) and apply.
+    - **Outcome**: Instance type is updated; t2.nano is not free tier eligible.
+
+---
+
+## Participant Questions and Answers
+
+1. **Will storage be deleted when an EC2 instance is terminated?**
+   - **Answer**: The root volume is deleted, but additional volumes persist.
+
+2. **Can a computer have multiple hard disks or SSDs?**
+   - **Answer**: Yes, just like an EC2 instance can have multiple EBS volumes.
+
+3. **Can one EBS volume be attached to two EC2 instances simultaneously?**
+   - **Answer**: No, an EBS volume can only be attached to one instance at a time.
+
+4. **What is the minimum storage for a Linux server?**
+   - **Answer**: 8 GB for Linux; 30 GB for Windows due to UI requirements.
+
+5. **Why prefer Linux servers over Windows?**
+   - **Answer**: Linux is lightweight, secure, and has better kernel control, making it faster and more cost-effective.
+
+6. **Can EBS volume size be decreased?**
+   - **Answer**: No, due to security concerns about data footprints.
+
+7. **What are IOPS and throughput?**
+   - **Answer**: IOPS is the speed of read/write operations; throughput is the data transfer speed for high-performance tasks (e.g., gaming).
+
+8. **Can EBS volumes and EC2 instances be in different AZs?**
+   - **Answer**: No, they must be in the same AZ for attachment.
+
+9. **What happens to additional volumes when an instance is terminated?**
+   - **Answer**: They persist and become **Available** for reattachment.
+
+10. **Can the root volume be detached?**
+    - **Answer**: Yes, using **Force Detach** if the instance crashes, to recover data.
+
+11. **How to recover data if a key pair is lost?**
+    - **Answer**: Detach the volume and attach it to another instance, or create a new volume from a snapshot.
+
+12. **Can snapshots be automated?**
+    - **Answer**: Yes, using a lifecycle policy to schedule snapshots (e.g., daily, weekly) with a retention count.
+
+13. **How to move data across AZs or regions?**
+    - **Answer**: Create a snapshot, then create a volume in a different AZ or copy the snapshot to another region.
+
+14. **What is the free tier EBS allowance?**
+    - **Answer**: 30 GB of SSD storage per month.
+
+15. **Why is EBS the costliest storage type?**
+    - **Answer**: It offers the fastest speed, directly attached to EC2 instances, like a Ferrari compared to EFS or S3.
+
+16. **What is the difference between AMI and EC2?**
+    - **Answer**: EC2 is the virtual machine; AMI is the operating system template with configurations.
+
+17. **Can Docker images be published in AMIs?**
+    - **Answer**: No, Docker images are container images; AMIs can include Docker software but are not the same.
+
+18. **What are the states of an EC2 instance?**
+    - **Answer**: Started, stopped, reboot, hibernate, terminated, running.
+
+---
+
+## Interview Questions
+
+1. **What are the different types of EBS volumes?**
+   - **Answer**: SSD, HDD, and magnetic.
+
+2. **Can you increase the size of an EBS volume?**
+   - **Answer**: Yes.
+
+3. **Can you decrease the size of an EBS volume?**
+   - **Answer**: No, due to security concerns.
+
+4. **Can an EBS volume in one AZ be attached to an EC2 instance in another AZ?**
+   - **Answer**: No, they must be in the same AZ.
+
+5. **If an EC2 instance is terminated, are additional volumes deleted?**
+   - **Answer**: No, additional volumes persist.
+
+6. **How do you recover data if a key pair is lost?**
+   - **Answer**: Detach the volume and attach it to another instance, or create a new volume from a snapshot.
+
+7. **What is a snapshot?**
+   - **Answer**: A point-in-time backup of an EBS volume.
+
+8. **What is the minimum EBS volume size for a Linux server?**
+   - **Answer**: 8 GB.
+
+9. **What are the benefits of custom AMIs?**
+   - **Answer**: Faster deployment, consistency, and improved manageability.
+
+10. **Why is EBS more expensive than EFS or S3?**
+    - **Answer**: It provides the fastest speed, directly attached to EC2 instances.
+
+---
+
+## Quiz Questions and Answers
+
+1. **Name three types of EC2 family servers.**
+   - **Answer**: General-purpose, memory-optimized, storage-optimized.
+
+2. **Which purchasing option is used during a sale or for non-critical workloads?**
+   - **Answer**: Spot instances.
+
+3. **Which purchasing option is used for a 3-year commitment?**
+   - **Answer**: Reserved instances.
+
+4. **Can multiple EBS volumes be attached to a single EC2 instance?**
+   - **Answer**: Yes.
+
+5. **If an EBS volume is 50 GB but only 5 GB is used, do you pay for 5 GB or 50 GB?**
+   - **Answer**: 50 GB.
+
+6. **Why does a stopped EC2 instance incur charges?**
+   - **Answer**: Due to storage costs for attached EBS volumes.
+
+7. **What are the three types of EBS storage?**
+   - **Answer**: SSD, HDD, magnetic.
+
+8. **What is the minimum EBS volume size for a Linux machine?**
+   - **Answer**: 8 GB.
+
+9. **What are the three IAM entities?**
+   - **Answer**: Users, groups, roles.
+
+10. **Which IAM entity is used to integrate services?**
+    - **Answer**: Roles.
+
+11. **Can a person without a key pair or AWS account access an EC2 instance?**
+    - **Answer**: No.
+
+12. **What are the states of an EC2 instance?**
+    - **Answer**: Started, stopped, reboot, hibernate, terminated, running.
+
+---
+
+## Additional Notes
+
+- **Next Topics**: Elastic File System (EFS), S3, and Virtual Private Cloud (VPC) starting after the weekend (May 12–13, 2025 are leave days).
+- **Practical Emphasis**: Hands-on practice is critical; participants must create, attach, and manage EBS volumes.
+- **Free Tier Usage**: Use the 30 GB EBS allowance wisely; terminate unused volumes to avoid charges.
+- **Snapshots and AMIs**: Essential for data recovery and consistent server deployment.
+- **Cost Awareness**: Snapshots, cross-AZ/region transfers, and storage incur costs in industry settings.
+- **Assignments**: To be explained by the mentor (Vikul) after the AWS module; no specific assignments yet due to foundational content.
+- **Support**: Instructor provided guidance for practical tasks and encouraged weekend practice.
+
+---
+
+## Summary
+The AWS EBS training session provided a thorough understanding of EBS, covering volume types, scalability, attachment/detachment, snapshots, and AMIs. Practical demonstrations included creating volumes, managing snapshots, and building custom AMIs. Real-world analogies (e.g., external hard drives, Ferrari) and a quiz reinforced key concepts. Participants were encouraged to practice hands-on tasks and prepare for upcoming topics (EFS, S3, VPC), ensuring readiness for industry roles.

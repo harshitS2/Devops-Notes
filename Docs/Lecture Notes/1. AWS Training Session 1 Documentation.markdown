@@ -1,0 +1,310 @@
+# AWS Training Session 1 Documentation
+
+This document provides a comprehensive overview of the first AWS training session conducted by Karan Gupta. It covers the session structure, key concepts introduced, practical demonstrations, Q&A, and assignments, ensuring all context from the transcript is captured.
+
+## Session Overview
+
+- **Duration**: 2.5 hours
+- **Instructor**: Karan Gupta
+- **Purpose**: Introduce AWS fundamentals, cloud computing concepts, and session logistics for a 16-session course spanning approximately one month.
+- **Audience**: Primarily freshers, with some participants from non-IT backgrounds.
+- **Session Type**: Webinar-based (audio muted for attendees, queries via chat box).
+
+### Session Structure
+- **Total Sessions**: 16 sessions over ~1 month.
+  - **Training Sessions**: 4 days/week (2.5 hours each).
+    - 1 hour: Lecture and learning.
+    - 15-minute break: Practice activities.
+    - Quiz: Short assessment.
+    - 1 hour: Continued training.
+  - **Mentor Session**: 1 day/week (doubt-clearing session with dedicated mentor for 3 months).
+- **Interaction Rules**:
+  - Training sessions: Webinar-based, queries via chat box, no audio for attendees.
+  - Mentor sessions: Audio and conversation allowed.
+- **AWS Account Requirement**:
+  - Attendees must create an AWS free tier account.
+  - Requires a credit/debit card with international payment enabled for a ₹2 verification charge.
+  - Budget setup recommended (e.g., zero-spend budget to avoid charges).
+
+### Instructor Introduction
+- **Name**: Karan Gupta
+- **Background**:
+  - Working professional in the industry, not a traditional teacher.
+  - AWS, Azure, and GCP certified; CK certified.
+  - Experience in MNCs, startups, and midsize organizations.
+  - Conducts interviews, providing practical industry insights.
+  - Published 10 research papers.
+  - Corporate trainer with Udemy courses on AWS, DevOps, and AI.
+- **Contact**: Available via WhatsApp/text for queries (no calls due to work commitments).
+- **Experience with Star Agile**: Associated for ~2.5 years, trained 15-20 batches.
+
+### Key Advice to Students
+- **Practical Focus**: Emphasized the importance of hands-on practice, as theoretical knowledge is less valued in the industry.
+- **Time Management**: Urged students to utilize weekends for preparation, as the course is intensive.
+- **Job Market**:
+  - Competitive industry; practical skills are critical for job placements.
+  - Startups offer more learning opportunities for beginners; MNCs provide better work-life balance.
+  - Gap years or non-tech backgrounds require extra effort to secure jobs.
+- **Motivation**: Highlighted the significant investment (time and money) in the course, encouraging proactive engagement.
+
+## Course Content
+
+### Session Logistics
+- **Weekly Schedule**:
+  - Monday: IAM (Identity and Access Management).
+  - Tuesday: Mentor session (doubt-clearing with mentors like Kul or Chiti Babu).
+  - Wednesday: EC2 (Elastic Compute Cloud).
+  - Thursday: EBS (Elastic Block Store).
+  - Friday: EFS (Elastic File System).
+  - Weekends: No classes, recommended for self-study.
+- **Resources**:
+  - GitHub repository link shared (public, no login required).
+  - Contains PPTs, basic interview questions, overview, and DV installations.
+  - Instructions to download raw files if internet speed is low.
+- **Recordings**:
+  - Available for account creation (dated 13th and 20th).
+  - Provided by Star Agile for reference.
+- **Assignments**:
+  - Study IAM for Monday’s session.
+  - Create AWS account by Monday (mandatory for practicals).
+  - Review PPTs and resources shared.
+
+### Introduction to AWS and Cloud Computing
+
+#### What is a Server?
+- **Definition**: A computer or machine that hosts an application or website.
+- **Types**:
+  - **Physical**: Tangible devices (e.g., laptops, mobiles).
+  - **Virtual**: Accessed remotely, not physically present (e.g., via AWS).
+- **Examples**:
+  - Instagram, WhatsApp, or bank servers going down indicate application hosting issues.
+  - Mobile phones can act as servers (e.g., Mini Militia game server setup).
+- **Q&A**:
+  - **Q**: Can a mobile act as a server?
+    - **A**: Yes, any device capable of hosting an application (e.g., Mini Militia server or crypto mining).
+
+#### Why Cloud Computing?
+- **Traditional Systems**:
+  - **Issues**:
+    - High cost (e.g., ₹1 lakh per computer × 100 = ₹1 crore).
+    - Space, power, cooling, and maintenance requirements.
+    - Lack of flexibility for short-term needs (e.g., 5-day resource requirement).
+    - Disaster recovery challenges (e.g., flooding in Chennai affecting data centers).
+  - **Example**: Physical setup requires manual purchases, setup, and maintenance, which is inefficient.
+- **Cloud Benefits**:
+  - **Cost-Effectiveness**: Pay-as-you-go model (hourly pricing, e.g., $0.01 for small machines, $5 for 192GB RAM).
+  - **Scalability**: Increase/decrease resources on demand (e.g., start/stop servers instantly).
+  - **Availability**: Multiple regions/availability zones ensure uptime (e.g., switch from Mumbai to Singapore if one region fails).
+  - **Flexibility**: Choose OS (Mac, Ubuntu, Windows), RAM, storage, etc.
+  - **Disaster Recovery**: Data centers in different regions mitigate risks.
+  - **On-Demand Delivery**: Instant resource provisioning.
+- **Rise of Cloud**:
+  - Gained prominence during COVID-19 due to virtual needs.
+  - Industries shifted to cloud for scalability and reliability.
+- **Q&A**:
+  - **Q**: Why switch from physical to cloud?
+    - **A**: Cost, scalability, availability, security, and reduced maintenance.
+  - **Q**: What is scaling?
+    - **A**: Increasing or decreasing resources as per requirement (e.g., starting/stopping servers instantly).
+
+#### What is AWS?
+- **Definition**: A cloud service provider offering 150+ services (e.g., compute, storage, machine learning, AI).
+- **Comparison**:
+  - Similar to Azure, GCP, DigitalOcean, Alibaba Cloud, etc.
+  - AWS is the oldest and most widely used, especially by US clients.
+- **Focus**: Course focuses on DevOps-related services (80% of services relevant to DevOps).
+- **Q&A**:
+  - **Q**: Do we need to learn all 150 services?
+    - **A**: No, focus on key DevOps services.
+  - **Q**: How does AWS compare to Azure/GCP?
+    - **A**: All provide similar services; AWS is popular in the US, Azure/GCP in APEC. Features are largely copied across clouds.
+
+#### Types of Clouds
+- **Public Cloud**:
+  - Accessible to everyone (e.g., AWS free tier account).
+  - Example: Anyone can create an AWS account after verification.
+- **Private Cloud**:
+  - Restricted access for security (e.g., defense, healthcare, finance).
+  - Example: Indian Army or HDFC Bank’s internal systems.
+- **Hybrid Cloud**:
+  - Combines public and private clouds (90% of industries use this).
+  - Example: TCS’s public investor page vs. private employee portal.
+- **Q&A**:
+  - **Q**: What are the different types of clouds?
+    - **A**: Public, private, hybrid (not AWS, GCP, Azure, which are providers).
+
+#### Computing Models
+- **On-Premises**:
+  - Full management of hardware and software (e.g., personal laptop).
+- **Infrastructure as a Service (IaaS)**:
+  - Hardware managed by provider (e.g., AWS EC2); user manages software, OS, data.
+  - Example: AWS manages hardware; user configures OS and security.
+- **Platform as a Service (PaaS)**:
+  - Focus on application development; provider manages hardware and lower-level software.
+  - Example: Elastic Beanstalk, where users focus on app code (e.g., Java, Node.js).
+- **Software as a Service (SaaS)**:
+  - Users consume applications without managing anything (e.g., Gmail, YouTube, Hotstar).
+- **Q&A**:
+  - **Q**: What are IaaS, PaaS, SaaS?
+    - **A**: IaaS (e.g., EC2), PaaS (e.g., Elastic Beanstalk), SaaS (e.g., Gmail).
+  - **Q**: Example of PaaS in AWS?
+    - **A**: Elastic Beanstalk.
+  - **Q**: If building an app for Google Play Store, which model?
+    - **A**: PaaS (development focus); using the app is SaaS.
+
+#### AWS Infrastructure
+- **Structure**:
+  - **Regions**: 36 globally (e.g., Mumbai, Singapore, North Virginia).
+    - New regions: Thailand (2025), Germany, Saudi Arabia (upcoming).
+  - **Availability Zones (AZs)**: 2-6 per region (e.g., Mumbai has 3 AZs: 1a, 1b, 1c).
+  - **Edge Locations/Data Centers**: Physical servers, not user-selectable for security.
+- **Purpose**:
+  - Regions: Choose based on user location (e.g., US users → US region).
+  - AZs: Ensure high availability (e.g., if Andheri AZ fails, use Navi Mumbai AZ).
+  - Data Centers: Managed by AWS, not user-selectable to prevent tampering.
+- **Q&A**:
+  - **Q**: How is AWS infrastructure divided?
+    - **A**: Regions → Availability Zones → Edge Locations/Data Centers.
+  - **Q**: If an application in one AZ fails, will AWS move it to another?
+    - **A**: No, AWS doesn’t automatically move it. Users must duplicate applications across AZs for high availability using load balancers or auto-scaling.
+
+#### Shared Responsibility Model
+- **AWS Responsibilities**:
+  - Manage hardware, data centers, and service availability (e.g., EC2, networking).
+  - Ensure SLAs (e.g., 99.9% uptime).
+- **Customer Responsibilities**:
+  - Manage data, OS, security, encryption, and access control.
+  - Example: If a user deletes files or servers, AWS won’t recover them.
+- **Q&A**:
+  - **Q**: If I delete something in AWS, will AWS help recover it?
+    - **A**: No, AWS provides services but doesn’t manage user actions.
+  - **Q**: How to retrieve data?
+    - **A**: Use AWS Backup or disaster recovery services (costs apply).
+  - **Q**: What if a developer deletes critical servers?
+    - **A**: AWS won’t recover them; it’s the customer’s responsibility.
+  - **Q**: Does AWS see my data if they recover it?
+    - **A**: No, AWS doesn’t access user data to ensure security.
+
+#### Service Level Agreement (SLA)
+- **Definition**: A commitment to service availability (e.g., 99.9% uptime).
+- **Implication**: If SLA is breached (e.g., only 98% uptime), AWS refunds the difference.
+- **Example**: CrowdStrike issue affected Azure’s SLA, leading to refunds.
+- **Q&A**:
+  - **Q**: What is SLA?
+    - **A**: Service Level Agreement, ensuring availability (e.g., 99.9%).
+  - **Q**: How does a better SLA benefit?
+    - **A**: Higher SLA (e.g., 99.99%) indicates more reliable service.
+
+#### Global vs. Regional Services
+- **Global Services**: Not tied to a region (e.g., IAM, Route 53, ACM, CloudFront, billing).
+- **Regional Services**: 95% of services, tied to specific regions (e.g., EC2).
+- **Q&A**:
+  - **Q**: Name global services?
+    - **A**: IAM, Route 53, ACM, CloudFront, billing.
+
+### Practical Demonstrations
+- **Server Creation/Deletion**:
+  - Demonstrated starting and deleting an EC2 server to show scaling.
+  - Emphasized deleting services after use to avoid costs.
+- **Budget Setup**:
+  - Navigate to AWS Billing → Budgets.
+  - Create a zero-spend budget or set a limit (e.g., $2-5/month).
+  - Email notifications at 85% and 100% usage.
+  - Example: A student completed the course with only ₹23 charged using free tier.
+- **AWS Account Creation**:
+  - Official link: [AWS Account Creation](https://aws.amazon.com/).
+  - Steps:
+    1. Enter email, password, and account details.
+    2. Add payment method (credit/debit card with international payment).
+    3. Verify with a ₹2 charge.
+    4. Select free tier (no support, only email assistance).
+  - Recordings available for reference (13th and 20th).
+
+### Quiz
+- **Questions**:
+  1. **Which cloud type for defense sector?**
+     - **A**: Private cloud (due to security).
+  2. **Computing model for building an app for Google Play Store?**
+     - **A**: PaaS (development focus).
+  3. **Computing model for using an app from Google Play Store?**
+     - **A**: SaaS (consumption).
+  4. **AWS service for PaaS?**
+     - **A**: Elastic Beanstalk.
+  5. **AWS service for IaaS?**
+     - **A**: EC2.
+  6. **Will AWS recover deleted data?**
+     - **A**: No, it’s the user’s responsibility.
+  7. **Advantages of cloud?**
+     - **A**: Availability, scalability, cost-effectiveness, security, performance.
+  8. **Is scalability only about increasing?**
+     - **A**: No, it includes increasing and decreasing resources.
+- **Note**: Questions were impromptu, reflecting interview-style queries.
+
+### Q&A and Additional Queries
+- **Q**: Why no audio in training sessions?
+  - **A**: Webinar-based; settings controlled by Star Agile, not the instructor. Raise a ticket with Star Agile for changes.
+- **Q**: Can we use EC2 with Visual Studio Code?
+  - **A**: Yes, EC2 instances can be accessed via VS Code.
+- **Q**: What is SRE (Site Reliability Engineer)?
+  - **A**: A premium role involving coding, testing, and development; a “one-man army” for system reliability.
+- **Q**: How to sign in as root user?
+  - **A**: After account creation, sign in as root user via the AWS console.
+- **Q**: Services covered in the course?
+  - **A**: IAM, EC2, EBS, EFS, S3, VPC, auto-scaling, load balancing, CloudTrail, CloudWatch, Trusted Advisor, Route 53, Lambda.
+- **Q**: Is CCNA relevant for DevOps?
+  - **A**: No, CCNA is for networking, not DevOps. DevOps certifications include AWS DevOps, Kubernetes, Jenkins, GitHub.
+- **Q**: Job prospects for non-tech backgrounds or gaps?
+  - **A**: Requires extra effort; startups are easier to enter than MNCs. Women can apply for “restart career” programs in MNCs.
+- **Q**: Programming language for DevOps?
+  - **A**: Minimal coding required; basic knowledge of Python, Java, Node.js, Golang, or Rust recommended.
+- **Q**: Cloud engineer vs. DevOps?
+  - **A**: Cloud engineer focuses on cloud services (e.g., AWS); DevOps includes broader tools (e.g., Docker, Kubernetes) and scripting.
+- **Q**: Terraform usage?
+  - **A**: Ensure t2.micro instances are used to avoid costs; Terraform may create heavier machines if not configured properly.
+- **Q**: Temporary instances?
+  - **A**: No temporary instances; use CloudShell (not preferred for resources).
+- **Q**: MLOps definition?
+  - **A**: Machine Learning Operations, combining DevOps and ML.
+- **Q**: Capstone projects?
+  - **A**: Three capstone projects covered after the course.
+
+### Industry Insights
+- **MNCs**:
+  - Better work-life balance, less workload.
+  - Gaps may affect hiring; suitable for those prioritizing stability.
+- **Startups**:
+  - Higher pay, more learning opportunities, but poor work-life balance.
+  - Ideal for beginners to gain experience.
+- **Midsize Organizations**:
+  - Balanced pay and work-life balance, but client-dependent (risk of layoffs).
+- **Job Market Trends**:
+  - Practical skills are critical; theoretical knowledge is less valued.
+  - AWS is preferred in the US; Azure/GCP in APEC.
+  - Cloud providers copy each other’s services (e.g., AWS’s Claude AI vs. Azure’s ChatGPT, Google’s Gemini).
+- **Market Share (2025)**:
+  - AWS: ~37%
+  - Azure: ~32%
+  - GCP: ~24%
+
+### Recommendations
+- **Immediate Actions**:
+  - Create AWS account by Monday using the official link.
+  - Set up a zero-spend budget or low-cost budget ($2-5).
+  - Review IAM for Monday’s session.
+- **Study Tips**:
+  - Read PPTs and GitHub resources.
+  - Avoid procrastination; utilize weekends for preparation.
+  - Focus on practicals, as theory is less valued.
+- **Career Advice**:
+  - Start with startups for learning, switch to MNCs for stability.
+  - Learn basic scripting (e.g., Python, Node.js) for DevOps.
+  - Actively apply for jobs, especially if from a non-tech background.
+
+### Closing Remarks
+- **Instructor’s Commitment**: Available for queries via WhatsApp; encourages proactive engagement.
+- **Motivation**: Emphasized the course’s potential to set students’ careers with 3-4 months of focused effort.
+- **Next Steps**:
+  - Monday: IAM session.
+  - Tuesday: Mentor session.
+  - Wednesday-Friday: EC2, EBS, EFS.
+  - Weekend: Self-study and account setup.
