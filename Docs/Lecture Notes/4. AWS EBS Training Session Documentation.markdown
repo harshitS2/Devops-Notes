@@ -1,7 +1,4 @@
 # AWS EBS Training Session Documentation
-
-This document provides a comprehensive overview of the AWS Elastic Block Store (EBS) training session conducted on May 11, 2025. It covers theoretical concepts, practical demonstrations, participant questions and answers, interview questions, and a quiz, ensuring all context from the session is captured.
-
 ---
 
 ## Session Overview
